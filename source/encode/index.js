@@ -34,9 +34,10 @@ exports.handler = async (event) => {
   });
 
   try {
-    // define paths:
-    let inputPath = 's3://' + event.srcBucket + '/' + event.srcVideo;
-    let outputPath = 's3://' + event.destBucket + '/' + event.guid;
+    let destFolders = event.srcVideo.replace(/\.[^/.]+$/, "").split('/');
+    let folder = destFolders[0];
+    let destFolder = folder + '/' + event.guid;
+    let outputPath = 's3://' + event.destBucket + '/' + destFolder;
 
     // Baseline for the job parameters
     let job = {

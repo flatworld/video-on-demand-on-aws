@@ -29,6 +29,8 @@ exports.handler = async (event) => {
     region: process.env.AWS_REGION
   });
 
+  const s3 = new AWS.S3();
+
   let data = {};
 
   try {
@@ -54,12 +56,38 @@ exports.handler = async (event) => {
     			console.log(output.type,'found in outputs');
     			data.hlsPlaylist = output.playlistFilePaths[0];
     			data.hlsUrl = 'https://'+data.cloudFront+'/'+data.hlsPlaylist.slice(5).split('/').splice(1,3).join('/');
+          let tag_params = {
+            Bucket: data.destBucket,
+            Key: data.hlsPlaylist,
+            Tagging: {
+              TagSet: [
+                {
+                  Key: "srcVideo",
+                  Value: data.srcVideo
+                }
+              ]
+            }
+          };
+          s3.putObjectTagging(tag_params).promise();
     			break;
 
     		case 'DASH_ISO_GROUP':
     			console.log(output.type,'found in outputs');
     			data.dashPlaylist = output.playlistFilePaths[0];
     			data.dashUrl = 'https://'+data.cloudFront+'/'+data.dashPlaylist.slice(5).split('/').splice(1,3).join('/');
+          let tag_params = {
+            Bucket: data.destBucket,
+            Key: data.dashPlaylist,
+            Tagging: {
+              TagSet: [
+                {
+                  Key: "srcVideo",
+                  Value: data.srcVideo
+                }
+              ]
+            }
+          };
+          s3.putObjectTagging(tag_params).promise();
     			break;
 
     		case 'FILE_GROUP':
@@ -97,6 +125,14 @@ exports.handler = async (event) => {
 
         default:
           throw new Error('Could not parse MediaConvert Output');
+    const s3 = new AWS.S3();
+
+    try {
+
+
+
+      await s3.putObjectTagging(params).promise();
+    }
       }
     });
   }
