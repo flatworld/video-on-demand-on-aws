@@ -47,7 +47,7 @@ exports.handler = async (event) => {
     data.encodingOutput = event;
     data.workflowStatus = 'Complete';
     data.EndTime = moment().utc().format('YYYY-MM-DD HH:mm.S');
-
+    let tag_params = {}
     //Parse MediaConvert Output and generate CloudFront URLS.
     event.detail.outputGroupDetails.forEach((output) => {
 
@@ -56,9 +56,9 @@ exports.handler = async (event) => {
     			console.log(output.type,'found in outputs');
     			data.hlsPlaylist = output.playlistFilePaths[0];
     			data.hlsUrl = 'https://'+data.cloudFront+'/'+data.hlsPlaylist.slice(5).split('/').splice(1,3).join('/');
-          let tag_params = {
+          tag_params = {
             Bucket: data.destBucket,
-            Key: data.hlsPlaylist,
+            Key: data.hlsPlaylist.slice(5).split('/').splice(1,3).join('/'),
             Tagging: {
               TagSet: [
                 {
@@ -68,16 +68,16 @@ exports.handler = async (event) => {
               ]
             }
           };
-          s3.putObjectTagging(tag_params).promise();
+          await s3.putObjectTagging(tag_params).promise();
     			break;
 
     		case 'DASH_ISO_GROUP':
     			console.log(output.type,'found in outputs');
     			data.dashPlaylist = output.playlistFilePaths[0];
     			data.dashUrl = 'https://'+data.cloudFront+'/'+data.dashPlaylist.slice(5).split('/').splice(1,3).join('/');
-          let tag_params = {
+          tag_params = {
             Bucket: data.destBucket,
-            Key: data.dashPlaylist,
+            Key: data.dashPlaylist.slice(5).split('/').splice(1,3).join('/'),
             Tagging: {
               TagSet: [
                 {

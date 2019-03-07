@@ -81,7 +81,7 @@ exports.handler = async (event) => {
       "OutputGroupSettings": {
         "Type": "FILE_GROUP_SETTINGS",
         "FileGroupSettings": {
-          "Destination": outputPath + '/mp4/',
+          "Destination": outputPath + '/mp4/' + event.guid,
         }
       },
       "Outputs": []
@@ -94,7 +94,7 @@ exports.handler = async (event) => {
         "HlsGroupSettings": {
           "SegmentLength": 5,
           "MinSegmentLength": 0,
-          "Destination": outputPath + '/hls/',
+          "Destination": outputPath + '/hls/' + event.guid,
         }
       },
       "Outputs": []
@@ -107,7 +107,7 @@ exports.handler = async (event) => {
         "DashIsoGroupSettings": {
           "SegmentLength": 30,
           "FragmentLength": 3,
-          "Destination": outputPath + '/dash/',
+          "Destination": outputPath + '/dash/' + event.guid,
         }
       },
       "Outputs": []
@@ -120,7 +120,7 @@ exports.handler = async (event) => {
         "CmafGroupSettings": {
           "SegmentLength": 30,
           "FragmentLength": 3,
-          "Destination": outputPath + '/cmaf/',
+          "Destination": outputPath + '/cmaf/' + event.guid,
         }
       }
     };
@@ -132,7 +132,7 @@ exports.handler = async (event) => {
         "MsSmoothGroupSettings": {
           "FragmentLength": 2,
           "ManifestEncoding": "UTF8",
-          "Destination": outputPath + '/mss/',
+          "Destination": outputPath + '/mss/' + event.guid,
         }
       }
     };
@@ -143,7 +143,7 @@ exports.handler = async (event) => {
       "OutputGroupSettings": {
         "Type": "FILE_GROUP_SETTINGS",
         "FileGroupSettings": {
-          "Destination": outputPath + "/thumbnails/"
+          "Destination": outputPath + "/thumbnails/" + event.guid
         }
       },
       "Outputs": [{
