@@ -34,6 +34,7 @@ exports.handler = async (event) => {
   });
 
   try {
+    let inputPath = 's3://' + event.srcBucket + '/' + event.srcVideo;
     let destFolders = event.srcVideo.replace(/\.[^/.]+$/, "").split('/');
     let folder = destFolders[0];
     let destFolder = folder + '/' + event.guid;
