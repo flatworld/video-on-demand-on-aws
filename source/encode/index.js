@@ -1,4 +1,4 @@
-/***********************************************************************************************
+ /***********************************************************************************************
  *  Copyright 2016 Amazon.com, Inc. or its affiliates. All Rights Reserved.
  *
  *  Licensed under the Amazon Software License (the "License"). You may not use
@@ -36,7 +36,7 @@ exports.handler = async (event) => {
   try {
     let inputPath = 's3://' + event.srcBucket + '/' + event.srcVideo;
     let destFolders = event.srcVideo.replace(/\.[^/.]+$/, "").split('/');
-    let folder = destFolders[0];
+    let folder = destFolders[0] + '/' + destFolders[1];
     let destFolder = folder + '/' + event.guid;
     let outputPath = 's3://' + event.destBucket + '/' + destFolder;
 
