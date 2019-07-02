@@ -1,4 +1,4 @@
- /***********************************************************************************************
+/***********************************************************************************************
  *  Copyright 2016 Amazon.com, Inc. or its affiliates. All Rights Reserved.
  *
  *  Licensed under the Amazon Software License (the "License"). You may not use
@@ -35,10 +35,13 @@ exports.handler = async (event) => {
 
   try {
     let inputPath = 's3://' + event.srcBucket + '/' + event.srcVideo;
+    let captionFile = event.srcVideo.split('.')[0] + '.srt';
+    let inputCaptionPath = 's3://' + event.srcBucket + '/' + captionFile;
     let destFolders = event.srcVideo.replace(/\.[^/.]+$/, "").split('/');
-    let folder = destFolders[0] + '/' + destFolders[1];
-    let destFolder = folder + '/' + event.guid;
-    let outputPath = 's3://' + event.destBucket + '/' + destFolder;
+    let folder = destFolders.slice(0, 3);
+    folder.push(event.guid);
+    let destPath = folder.join('/');
+    let outputPath = 's3://' + event.destBucket + '/' + destPath;
 
     // Baseline for the job parameters
     let job = {
@@ -63,6 +66,16 @@ exports.handler = async (event) => {
           },
           "VideoSelector": {
             "ColorSpace": "FOLLOW"
+          },
+          "CaptionSelectors": {
+            "Caption Selector 1": {
+              "SourceSettings": {
+                "SourceType": "SRT",
+                "FileSourceSettings": {
+                  "SourceFile": inputCaptionPath
+                }
+              }
+            }
           },
           "FilterEnable": "AUTO",
           "PsiControl": "USE_PSI",
