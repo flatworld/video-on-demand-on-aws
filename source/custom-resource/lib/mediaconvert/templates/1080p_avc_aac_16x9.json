@@ -64,7 +64,7 @@
                 "NameModifier": "_captions",
                 "CaptionDescriptions": [
                   {
-                    "CaptionSelectorName": "Captions Selector 1",
+                    "CaptionSelectorName": "Caption Selector 1",
                     "DestinationSettings": {
                       "DestinationType": "WEBVTT"
                     },
@@ -139,7 +139,7 @@
                 "NameModifier": "_captions",
                 "CaptionDescriptions": [
                   {
-                    "CaptionSelectorName": "Captions Selector 1",
+                    "CaptionSelectorName": "Caption Selector 1",
                     "DestinationSettings": {
                       "DestinationType": "WEBVTT"
                     },
